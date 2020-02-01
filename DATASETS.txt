@@ -1,0 +1,9 @@
+Our dataset is from IMDb and contains information about movie titles, actors, directors, and much more.
+The data files we are using are titled name.basics, title.basics, title.crew, title.principals, and title.ratings.
+There are nconst and tconst which are alphanumeric unique identifiers for the person and title of the work.
+All of the files have tconst.
+For example, if you wanted to find an actor for a movie, they are connected between the name.basics file and t.basics file.
+Because all of these files have tconst, we can analyze the relationship between all the files based on the title of a work.
+The dataset and additional files can be accessed via this link. https://datasets.imdbws.com/
+We hope to find interesting connections between people within the data, like how actors are connected with directors or writers.
+Another intersting relationship to investigate is between actors and critically aclaimed movies.
