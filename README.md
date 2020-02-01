@@ -1,4 +1,4 @@
-# music-brainz-data
+# imdb-data
 
 Ian Chang
 ic7498
