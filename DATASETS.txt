@@ -7,3 +7,30 @@ Because all of these files have tconst, we can analyze the relationship between 
 The dataset and additional files can be accessed via this link. https://datasets.imdbws.com/
 We hope to find interesting connections between people within the data, like how actors are connected with directors or writers.
 Another intersting relationship to investigate is between actors and critically aclaimed movies.
+We converted the tsvs to csvs via python.
+Sample rows from data:
+NameBasics.csv
+nconst,primaryName,birthYear,deathYear,primaryProfession,knownForTitles
+nm0000001,Fred Astaire,1899,1987,"soundtrack,actor,miscellaneous","tt0072308,tt0043044,tt0050419,tt0053137"
+nm0000002,Lauren Bacall,1924,2014,"actress,soundtrack","tt0037382,tt0071877,tt0038355,tt0117057"
+nm0000003,Brigitte Bardot,1934,\N,"actress,soundtrack,producer","tt0049189,tt0054452,tt0059956,tt0057345"
+TitleBasics.csv
+tconst,titleType,primaryTitle,originalTitle,isAdult,startYear,endYear,runtimeMinutes,genres
+tt0000001,short,Carmencita,Carmencita,0,1894,\N,1,"Documentary,Short"
+tt0000002,short,Le clown et ses chiens,Le clown et ses chiens,0,1892,\N,5,"Animation,Short"
+tt0000003,short,Pauvre Pierrot,Pauvre Pierrot,0,1892,\N,4,"Animation,Comedy,Romance"
+TitleCrew.csv
+tconst,directors,writers
+tt0000001,nm0005690,\N
+tt0000002,nm0721526,\N
+tt0000003,nm0721526,\N
+TitlePrincipals.csv
+tconst,ordering,nconst,category,job,characters
+tt7951070,4,nm4230206,actor,\N,["Brandon"]
+tt7951118,6,nm8521876,actor,\N,["Sahin"]
+tt7951120,8,nm5405402,writer,script,\N
+TitleRatings.csv
+tconst,averageRating,numVotes
+tt0000001,5.6,1584
+tt0000002,6.1,189
+tt0000003,6.5,1244
