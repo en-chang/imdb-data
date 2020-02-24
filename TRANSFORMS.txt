@@ -1,0 +1,7 @@
+In the table Directs and Writes nConst is an array
+so we were not able to properly create a primary key.
+Also because nConst is an array, the relationship nConst in People was unclear
+so we made it one to one when it should be one to many.
+In the table Character there was an error with the primary key.
+We also simplified our tables compared to the staging ones
+so we couldn't replicate some sql commands due to the arrays.
