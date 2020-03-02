@@ -1,7 +1,40 @@
-In the table Directs and Writes nConst is an array
-so we were not able to properly create a primary key.
-Also because nConst is an array, the relationship nConst in People was unclear
-so we made it one to one when it should be one to many.
-In the table Character there was an error with the primary key.
-We also simplified our tables compared to the staging ones
-so we couldn't replicate some sql commands due to the arrays.
+imdb_modeled.Directs Normal Form Violations:
+
+1NF Violations:
+nConst is an array of strings(non-scalar.)
+Also, should make tConst the PK
+
+2NF Violations: 
+nConst (array of cast members for the title) is currently the primary key. 
+tConst determines nConst. (Make tConst the PK.)
+
+imdb_modeled.Writes Normal Form Violations:
+
+1NF Violations:
+nConst is an array of strings(non-scalar.)
+
+2NF Violations: 
+nConst (array of cast members for the title) is currently the primary key. 
+tConst determines nConst. (Make tConst the PK.)
+
+imdb_modeled.People Normal Form Violations:
+
+1NF Violations:
+knownForTitles is an array of strings (non-scalar.) 
+
+imdb_modeled.Characters Normal Form Violations
+
+2NF Violations:
+nConst functionally determines attributes (make nConst the primary key.)
+
+imdb_modeled.Titles Normal Form Violations
+
+3NF Violations:
+tConst is the unique identifier for the movie and determines all other fields, however, primaryTitle is also unique.
+tConst and primaryTitle should comprise a composite primary key.
+
+imdb_modeled.People Normal Form Violations
+
+3NF Violations:
+nConst is a unqiue identifier for the cast member and determines all other fields, however, primaryName is also unique.
+nConst and primaryName should comprise a composite primary key.
