@@ -3,21 +3,17 @@ import apache_beam as beam
 from apache_beam.io import WriteToText
 
 
-class SplitDirectorsFn(beam.DoFn):
+class SplitPrimProfFn(beam.DoFn):
   def process(self, element):  
-    director_record = element
-    directors = director_record.get('directors')
-    title = director_record.get('tConst')
-    directors = directors.strip()
-    directors = directors.split(',')
-    dir_dicts = []
-    for director in directors:
-      dir_dicts.append({'tConst':title, 'director':director})
-    #print(dir_dicts)
-    return(dir_dicts)
-    # split on directors
-    # iterate through, create dict for each new row
-    # return list of dicts
+    castmemb_record = element
+    name = castmemb_record.get('nConst')
+    jobs = castmemb_record.get('primaryProfession')
+    jobs = jobs.strip()
+    jobs = jobs.split(',')
+    job_dicts = []
+    for job in jobs:
+      job_dicts.append({'nConst':name, 'primaryProfession':job})
+    return(job_dicts)
 
           
 def run():
@@ -32,7 +28,7 @@ def run():
      # Create beam pipeline using local runner
      p = beam.Pipeline('DirectRunner', options=opts)
 
-     sql = 'SELECT directors, tConst FROM imdb_modeled.Directs limit 100' # passing a query. Shouldn't process more than 1000 records w DR
+     sql = 'SELECT nConst, primaryProfession FROM imdb_modeled.People limit 100' # passing a query. Shouldn't process more than 1000 records w DR
         # directors is an array of strings, tConst is a string 
      bq_source = beam.io.BigQuerySource(query=sql, use_standard_sql=True) # direct runner is not running in parallel on several workers. DR is local
 
@@ -40,17 +36,17 @@ def run():
 
      # apply ParDo to split the directors titles  
      # call pardo, pipe query results to pardo
-     split_directors_pcoll = query_results | 'Return title: director i dictonaries' >> beam.ParDo(SplitDirectorsFn()) 
+     split_primaryProfession_pcoll = query_results | 'Return castMember: primaryProfession i dictonaries' >> beam.ParDo(SplitPrimProfFn()) 
 
      # write PCollection to log file
-     split_directors_pcoll | 'Write log 1' >> WriteToText('formatted_titles_pcoll.txt') 
+     split_primaryProfession_pcoll | 'Write log 1' >> WriteToText('formatted_professions_pcoll.txt') 
 
      dataset_id = 'imdb_modeled'
-     table_id = 'Directs_Beam'
-     schema_id = 'director:STRING, tConst:STRING'
+     table_id = 'primaryProfession_Beam'
+     schema_id = 'nConst:STRING, primaryProfession:STRING'
 
      # write PCollection to new BQ table
-     split_directors_pcoll | 'Write BQ table' >> beam.io.WriteToBigQuery(dataset=dataset_id, 
+     split_primaryProfession_pcoll | 'Write BQ table' >> beam.io.WriteToBigQuery(dataset=dataset_id, 
                                                 table=table_id, 
                                                 schema=schema_id, 
                                                 project=PROJECT_ID,

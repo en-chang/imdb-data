@@ -3,21 +3,17 @@ import apache_beam as beam
 from apache_beam.io import WriteToText
 
 
-class SplitDirectorsFn(beam.DoFn):
+class SplitWritersFn(beam.DoFn):
   def process(self, element):  
-    director_record = element
-    directors = director_record.get('directors')
-    title = director_record.get('tConst')
-    directors = directors.strip()
-    directors = directors.split(',')
-    dir_dicts = []
-    for director in directors:
-      dir_dicts.append({'tConst':title, 'director':director})
-    #print(dir_dicts)
-    return(dir_dicts)
-    # split on directors
-    # iterate through, create dict for each new row
-    # return list of dicts
+    writer_record = element
+    writers = writer_record.get('writers')
+    title = writer_record.get('tConst')
+    writers = writers.strip()
+    writers = writers.split(',')
+    writer_dicts = []
+    for writer in writers:
+      writer_dicts.append({'tConst':title, 'writer':writer})
+    return(writer_dicts)
 
           
 def run():
@@ -32,7 +28,7 @@ def run():
      # Create beam pipeline using local runner
      p = beam.Pipeline('DirectRunner', options=opts)
 
-     sql = 'SELECT directors, tConst FROM imdb_modeled.Directs limit 100' # passing a query. Shouldn't process more than 1000 records w DR
+     sql = 'SELECT writers, tConst FROM imdb_modeled.Writes limit 100' # passing a query. Shouldn't process more than 1000 records w DR
         # directors is an array of strings, tConst is a string 
      bq_source = beam.io.BigQuerySource(query=sql, use_standard_sql=True) # direct runner is not running in parallel on several workers. DR is local
 
@@ -40,14 +36,14 @@ def run():
 
      # apply ParDo to split the directors titles  
      # call pardo, pipe query results to pardo
-     split_directors_pcoll = query_results | 'Return title: director i dictonaries' >> beam.ParDo(SplitDirectorsFn()) 
+     split_directors_pcoll = query_results | 'Return title: writer i dictonaries' >> beam.ParDo(SplitWritersFn()) 
 
      # write PCollection to log file
      split_directors_pcoll | 'Write log 1' >> WriteToText('formatted_titles_pcoll.txt') 
 
      dataset_id = 'imdb_modeled'
-     table_id = 'Directs_Beam'
-     schema_id = 'director:STRING, tConst:STRING'
+     table_id = 'Writes_Beam'
+     schema_id = 'writer:STRING, tConst:STRING'
 
      # write PCollection to new BQ table
      split_directors_pcoll | 'Write BQ table' >> beam.io.WriteToBigQuery(dataset=dataset_id, 
