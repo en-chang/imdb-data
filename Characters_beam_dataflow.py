@@ -41,7 +41,7 @@ def run():
     # staging location, temp_location and specify DataflowRunner.
     google_cloud_options = options.view_as(GoogleCloudOptions)
     google_cloud_options.project = PROJECT_ID
-    google_cloud_options.job_name = 'split-directors-df'
+    google_cloud_options.job_name = 'split-characters-df'
     google_cloud_options.staging_location = BUCKET + '/staging'
     google_cloud_options.temp_location = BUCKET + '/temp'
     options.view_as(StandardOptions).runner = 'DataflowRunner'
@@ -49,27 +49,24 @@ def run():
     # Create the Pipeline with the specified options.
     p = Pipeline(options=options)
     
-    sql = 'SELECT directors, tConst FROM imdb_modeled.Directs WHERE directors IN (SELECT DISTINCT nConst FROM imdb_modeled.People)'
+    sql = 'SELECT DISTINCT tConst, nConst, job, characters FROM imdb_modeled.Characters'
     bq_source = beam.io.BigQuerySource(query=sql, use_standard_sql=True)
 
     query_results = p | 'Read from BigQuery' >> beam.io.Read(bq_source)
-
-    # write PCollection to log file
-    query_results | 'Write log 1' >> WriteToText(DIR_PATH + 'query_results.txt')
 
     # apply ParDo to split the directors titles  
     # call pardo, pipe query results to pardo
     split_characters_pcoll = query_results | 'Return title: director i dictonaries' >> beam.ParDo(SplitCharactersFn()) 
 
     # write PCollection to log file
-    split_characters_pcoll | 'Write log 1' >> WriteToText('split_characters_pcoll.txt') 
+    split_characters_pcoll | 'Write log 1' >> WriteToText(DIR_PATH + 'split_characters_pcoll.txt') 
 
     dataset_id = 'imdb_modeled'
-    table_id = 'Characters_Beam'
+    table_id = 'Characters_Beam_DF'
     schema_id = 'tConst:STRING, nConst:STRING, job:STRING, characters:STRING'
 
     # write PCollection to new BQ table
-    split_directors_pcoll | 'Write BQ table' >> beam.io.WriteToBigQuery(dataset=dataset_id, 
+    split_characters_pcoll | 'Write BQ table' >> beam.io.WriteToBigQuery(dataset=dataset_id, 
                                                   table=table_id, 
                                                   schema=schema_id,
                                                   project=PROJECT_ID,
