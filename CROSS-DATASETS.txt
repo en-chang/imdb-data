@@ -1,0 +1,17 @@
+1. There are 6,182 films that have the same title and year in the Bollywood dataset, however, there are 0 of the same directors in the 
+two tables. This points to there being some inconsistent naming conventions for directors between the two dataset. There is a good 
+chance that for if a film from bollywood has the same title and year as a film in the imdb data set, the records are refering to the 
+same film. So, our first query will be a series of joins between the two tables.
+
+First, bollywoodDirects and bollywoodTitles will be inner joined on title to create table 1. Then, Directs_Beam_DF and title_Beam_DF
+will be joined on tConst to create table 2. Finally, table 1 and table 2 will be joined on title. Then, the name of the director in 
+the bollywood dataset can be compared with the name of the director in the imdb dataset to determine how to correct the differing 
+naming conventions.
+
+2. Again looking at the overlapping films in the two tables, a query will be run to compare the listed genre for a film in the
+Bollywood dataset, versus the listed genre for that film in the imdb dataset. However, while the genre field in the imdb data is scaler
+in the Bollywood, genre is a list of genres. So, prior to this query, the genre table in Bollywood will be transformed to be scaler.
+
+3. A query will be done to look at the overlapping fils rating in the imdb table, and to look at the relation between rating, 
+crores grossed, and date. However, there are three different columns in bollywood containing the date: one for month, one for day, and 
+one for year. Before the date can be fully analyzed, these dates will have to be transformed into one date-time stamp.

@@ -34,3 +34,40 @@ tconst,averageRating,numVotes
 tt0000001,5.6,1584
 tt0000002,6.1,189
 tt0000003,6.5,1244
+
+Secondary Dataset:
+
+Our secondary dataset is the Bollywood movies Dataset from kaggle.com, which contains details about Bollywood movies since 1920.
+The dataset has three tables. The main table is Bollywood.csv, which contains information about each title, such as release data, cast, 
+genre, and how much money it grossed in its best year. There are just over 9,600 titles in this table.
+
+There are two complementary datatables; Bollywood-actors.csv, and Bollywood-actresses.csv. These datasets contain actor names and 
+heights for roughly 275 actors and actresses in Bollywood, and the actresses table contains the role that these actors debuted in.
+
+Some information that we would hope to gain from exploratory data analysis of these tables, as well as data set integration with our 
+imdb data set is the average heights of some of the more prominent actors in Bollywood, the frequency of releases of movies by month,
+the rating of Bollywood movies in the imdb database, and the relation between rating in the imdb ratings table and "crores" grossed by
+the movie 
+
+
+Bollywood-actress.csv sample
+
+Name		Height(in cm)	Debut aslead role
+Aishwarya Rai	165		Aur Pyar Ho Gaya
+Alia Bhatt	155		Student of the Year
+Ameesha Patel	152		Kaho Naa... Pyaar Hai
+
+
+Bollywood-actors.csv sample:
+
+Name			Height(in cm)
+Aaditya Shrivastava	178
+Aamir Khan		163
+Abhay Deol		180
+
+
+Bollywood.csv sample:
+Year	Title		Director		Cast											Genre		Release Month	Release Date	Highest Grosser By Year(in crores)
+2012	Ek Tha Tiger	Kabir Khan		khan,ranvir,56,katrina,salman,kaif,girish,karnad,shorey					action,romance	AUG		15		334.39
+2013	Dhoom 3		Vijay Krishna Acharya	khan,abhishek,bachchan,katrina,uday,kaif,chopra,aamir					action		DEC		20		589.2
+2014	PK		Rajkumar Hirani		khan,sushant,anushka,boman,sharma,dutt,irani,sanjay,sethi,ram,aamir,singh,rajput	drama,comedy	DEC		19		832
