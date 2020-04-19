@@ -38,3 +38,11 @@ imdb_modeled.People Normal Form Violations
 3NF Violations:
 nConst is a unqiue identifier for the cast member and determines all other fields, however, primaryName is also unique.
 nConst and primaryName should comprise a composite primary key.
+
+Second Dataset (Bollywood)
+
+bollywood_modeled.Cast
+The column names is a list and a transformation needs to be done to where title and names can become a composite primary key
+
+bollywood_modeled.bollywoodTitles
+The date is split up into three different into 3 columns and make them just one column
